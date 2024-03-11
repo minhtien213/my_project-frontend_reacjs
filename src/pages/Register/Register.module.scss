@@ -1,0 +1,87 @@
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(249, 245, 245, 0.7);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(98, 94, 94, 0.5);
+  z-index: -1;
+}
+
+.container {
+  width: 500px;
+  border: 1px solid #9a8f8f;
+  border-radius: 10px;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-label {
+  text-align: center;
+}
+
+.form-register {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+  position: relative;
+}
+
+.name-label,
+.email-label,
+.password-label,
+.password-confirm-label {
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.name,
+.email,
+.password,
+.password-confirm {
+  border: none;
+  border-radius: 3px;
+  padding: 7px 10px;
+}
+
+.password-group,
+.password-confirm-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.faEye-icon,
+.faEyeSlash-icon {
+  position: absolute;
+  top: 77%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.faEye-icon-confirm,
+.faEyeSlash-icon-confirm {
+  position: absolute;
+  top: 77%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.submit {
+  margin: auto;
+}
