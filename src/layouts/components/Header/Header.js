@@ -23,20 +23,6 @@ import Image from '~/components/Image';
 
 const cx = classNames.bind(styles); //bind object styles trả về biến cx
 
-//menu chưa login
-const MENU_ITEMS = [
-  {
-    icon: <FontAwesomeIcon icon={faMoon} />,
-    title: 'Chế độ tối',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faSignOut} />,
-    title: 'Đăng nhập',
-    to: '/sign-in',
-    border: true, //field tạo border
-  },
-];
-
 //menu đã login
 const MENU_ITEMS_LOGIN = [
   {
@@ -59,6 +45,7 @@ const MENU_ITEMS_LOGIN = [
 
 function Header() {
   const user = useSelector((state) => state.user);
+
   //xử lí khi click vào menu item
   const handleMenuChange = (menuItem) => {
     // switch (menuItem.type) {
@@ -83,9 +70,11 @@ function Header() {
         </div>
 
         <div className={cx('actions')}>
-          {!user ? (
+          {user.name === '' ? (
             <>
-              <Button primary>Đăng nhập</Button>
+              <Button primary to={'/sign-in'}>
+                Đăng nhập
+              </Button>
             </>
           ) : (
             <div className={cx('actions-login')}>
@@ -93,7 +82,7 @@ function Header() {
                 <FontAwesomeIcon className={cx('actions-cart-icon')} icon={faCartShopping} />
               </Tippy>
               <div className={cx('info-login')}>
-                <Menu items={user ? MENU_ITEMS_LOGIN : MENU_ITEMS} onChange={handleMenuChange}>
+                <Menu items={MENU_ITEMS_LOGIN} onChange={handleMenuChange}>
                   <div className={cx('info-login')}>
                     <Link to={config.routes.profile}>
                       <Image className={cx('actions-avatar-img')} src="" alt="avatar" />

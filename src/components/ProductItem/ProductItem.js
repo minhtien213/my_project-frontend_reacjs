@@ -7,7 +7,7 @@ import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ data }) {
+function ProductItem({ data }) {
   return (
     <Link to={`/`} className={cx('wrapper')}>
       <Image className={cx('image')} src={data.image} alt={data.name} />
@@ -19,7 +19,7 @@ function AccountItem({ data }) {
   );
 }
 
-AccountItem.propTypes = {
+ProductItem.propTypes = {
   data: PropTypes.object.isRequired,
 };
-export default AccountItem;
+export default ProductItem;

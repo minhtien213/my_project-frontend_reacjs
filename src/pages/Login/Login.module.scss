@@ -41,6 +41,7 @@
 .password-label {
   font-size: 14px;
   margin-top: 15px;
+  margin-bottom: 3px;
 }
 
 .email,
@@ -76,4 +77,22 @@
 
 .submit {
   margin: auto;
+}
+
+.isMember {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+
+  .label {
+    font-style: italic;
+  }
+
+  .registerBtn {
+    margin-left: 5px;
+    color: blue;
+  }
 }

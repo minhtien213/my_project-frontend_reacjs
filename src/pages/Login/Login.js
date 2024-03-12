@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import * as userServices from '~/services/userServices';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import styles from './Login.module.scss';
 import Button from '~/components/Button';
 import { updateUser } from '~/redux/userSlice';
+import { setLocalStorage } from '~//utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -26,24 +27,33 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleGetUserDetail = async (id, accessToken) => {
-    //sau khi login thì lấy info user đã login
-    const res = await userServices.getDetailUser(id, accessToken);
-    console.log(res);
-    dispatch(updateUser({ ...res?.data, accessToken: accessToken })); //dispatch action(payload)
+  const handleGetUserDetail = async (id, access_token) => {
+    // //sau khi login thì lấy info user đã login
+    try {
+      const data = await userServices.getDetailUser(id, access_token);
+      if (data) {
+        const user = await userServices.getDetailUser(id, access_token);
+        dispatch(updateUser(user.data)); //dispatch action(payload)
+        setLocalStorage('user', user.data);
+      } else {
+        console.error('Error');
+      }
+    } catch (error) {
+      console.error('Error"', error);
+    }
   };
 
-  const dataLogin = { email, password };
+  const data_login = { email, password };
   const handleLogin = () => {
     const fetchApi = async () => {
-      const result = await userServices.login(dataLogin);
+      const result = await userServices.login(data_login);
       setResult(result);
       if (result.status === 'OK') {
-        localStorage.setItem('access_token', result.accessToken);
-        if (result?.accessToken) {
-          const decoded = jwtDecode(result?.accessToken);
+        localStorage.setItem('access_token', result.access_token);
+        if (result?.access_token) {
+          const decoded = jwtDecode(result?.access_token);
           if (decoded.id) {
-            handleGetUserDetail(decoded.id, result.accessToken);
+            handleGetUserDetail(decoded.id, result.access_token);
           }
         }
         navigate('/'); //login success
@@ -112,6 +122,11 @@ function Login() {
         <Button disabled={disabledBtn} className={cx('submit')} primary onClick={handleLogin}>
           Đăng nhập
         </Button>
+
+        <div className={cx('isMember')}>
+          <p className={cx('label')}>Chưa có tài khoản?</p>
+          <Link className={cx('registerBtn')} to={'/sign-up'}>Đăng kí ngay</Link>
+        </div>
       </div>
     </div>
   );
