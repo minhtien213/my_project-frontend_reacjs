@@ -1,1 +1,120 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 15px 10px;
+}
 
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-phone {
+  width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+.type-prd {
+  width: 100%;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.type-prd-title {
+  padding: 2px 10px;
+  font-size: 30px;
+}
+
+.type-prd-loadmore {
+  color: rgb(82, 82, 244);
+  font-style: italic;
+  font-size: 1.4rem;
+}
+
+.phone,
+.laptop,
+.tablet {
+  width: 100%;
+  height: 300px;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding: 5px;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.card {
+  flex: 0 0 22%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+    transition: all ease 0.3s;
+  }
+}
+
+.card-info {
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.card-price {
+  width: 100px;
+  padding: 3px 5px;
+  background-color: #c7e5ea;
+  border-radius: 25px;
+  margin: 5px 0;
+  text-align: center;
+  color: red;
+}
+
+.show-detail-btn {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.scroll-left-btn,
+.scroll-right-btn {
+  cursor: pointer;
+  font-size: 4rem;
+  color: #ccc;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #a8d3da;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.scroll-left-btn {
+  left: 30px; /* Dịch nút cuộn sang trái 30px so với vị trí của phần tử cha */
+}
+
+.scroll-right-btn {
+  right: 30px; /* Dịch nút cuộn sang phải 30px so với vị trí của phần tử cha */
+}

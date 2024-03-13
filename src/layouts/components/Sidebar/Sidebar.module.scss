@@ -1,8 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 240px;
+  width: 200px;
   height: 100vh;
   padding: 20px 0 26px 8px;
   border-right: 1px solid #ece8e8;
+  position: fixed;
+  left: 0;
+  top: 70px;
 }
