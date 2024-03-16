@@ -2,6 +2,20 @@
 
 import * as httpRequest from '~/utils/httpRequest'; //import all trong file httpRequest vào thành object httpRequest
 
+export const search = async (search, search_field = 'name') => {
+  try {
+    const res = await httpRequest.get('user/get-all', {
+      params: {
+        search,
+        search_field,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const login = async (data_login) => {
   try {
     const res = await httpRequest.post('user/sign-in', data_login);

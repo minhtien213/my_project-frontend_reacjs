@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/layouts';
 import { updateUser } from '~/redux/userSlice';
+import { updateSearchValue } from '~/redux/productSlice';
 import { getLocalStorage } from '~/utils/localStorageUtils';
 
 function App() {
@@ -14,7 +15,11 @@ function App() {
     if (user) {
       dispatch(updateUser(user));
     }
-  }, [dispatch]); //update user khi reload page
+    const searchValue = getLocalStorage('searchValue');
+    if (searchValue) {
+      dispatch(updateSearchValue([searchValue, 1]));
+    }
+  }, [dispatch]); //update store khi reload page
 
   return (
     <Router>

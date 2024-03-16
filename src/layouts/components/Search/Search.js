@@ -5,12 +5,17 @@ import styles from './Search.module.scss';
 import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; //import list icon
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import * as searchServices from '~/services/searchService';
+import config from '~/config';
+import * as productServices from '~/services/productServices';
+import { updateSearchValue } from '~/redux/productSlice';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
-import AccountItem from '~/components/ProductItem';
+import ProductItem from '~/components/ProductItem';
 import { useDebounce } from '~/hooks';
 import { SearchIcon } from '~/components/Icons';
+import { setLocalStorage } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -20,9 +25,11 @@ function Search() {
   const [showResult, setShowResult] = useState(false);
   const [loadingIcon, setloadingIcon] = useState(false);
 
+  const dispatch = useDispatch(); //dispatch payload
   const debouncedValue = useDebounce(searchValue, 500); //delay thời gian nhập input value
 
   const inputRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!debouncedValue.trim()) {
@@ -31,9 +38,9 @@ function Search() {
     const fetchApi = async () => {
       setloadingIcon(true);
 
-      const result = await searchServices.search(debouncedValue);
+      const result = await productServices.search(debouncedValue);
 
-      setSearchResult(result);
+      setSearchResult(result.data);
       setloadingIcon(false);
     };
     fetchApi();
@@ -58,6 +65,12 @@ function Search() {
     }
   };
 
+  const handleSeacrh = () => {
+    dispatch(updateSearchValue([debouncedValue, 1]));
+    setLocalStorage('searchValue', debouncedValue);
+    navigate(config.routes.search);
+  };
+
   return (
     //bọc <div> hoặc <span> xung quanh phần tử tham chiếu sẽ giải quyết cảnh báo của tippy
     <div className={cx('search-result-block')}>
@@ -70,7 +83,7 @@ function Search() {
             <PopperWrapper>
               <h4 className={cx('search-title')}>Kết quả tìm kiếm sản phẩm</h4>
               {searchResult?.map((result) => (
-                <AccountItem key={result.name} data={result} />
+                <ProductItem key={result.name} data={result} />
               ))}
             </PopperWrapper>
           </div>
@@ -95,7 +108,9 @@ function Search() {
 
           {loadingIcon && <FontAwesomeIcon className={cx('loading-icon')} icon={faSpinner} />}
           <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
-            <SearchIcon />
+            <div onClick={handleSeacrh}>
+              <SearchIcon />
+            </div>
           </button>
         </div>
       </HeadlessTippy>

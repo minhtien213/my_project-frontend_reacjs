@@ -2,15 +2,17 @@
 
 import * as httpRequest from '~/utils/httpRequest'; //import all trong file httpRequest vào thành object httpRequest
 
-export const search = async (search, search_field = 'name') => {
+export const search = async (search, search_field = 'name', pageSize = 3, pageCurrent = 1) => {
   try {
     const res = await httpRequest.get('product/get-all', {
       params: {
         search,
         search_field,
+        pageSize,
+        pageCurrent,
       },
     });
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }

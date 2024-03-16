@@ -1,8 +1,5 @@
 .wrapper {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   padding: 15px 10px;
 }
 
@@ -12,7 +9,9 @@
   flex-direction: column;
 }
 
-.scroll-phone {
+.scroll-phone,
+.scroll-laptop,
+.scroll-tablet {
   width: 100%;
   position: relative;
   margin: auto;
@@ -24,7 +23,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
 }
 
 .type-prd-title {
@@ -32,10 +30,20 @@
   font-size: 30px;
 }
 
-.type-prd-loadmore {
-  color: rgb(82, 82, 244);
+.loadmore {
+  flex: 0 0 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadmore-btn {
+  color: rgb(98, 98, 242);
   font-style: italic;
-  font-size: 1.4rem;
+  font-size: 3rem;
+  text-align: center;
+  // margin: auto;
 }
 
 .phone,
@@ -51,6 +59,7 @@
   padding: 5px;
   scrollbar-width: none;
   scroll-behavior: smooth;
+  margin: auto;
 }
 
 .card {
@@ -94,13 +103,17 @@
   font-size: 14px;
 }
 
-.scroll-left-btn,
-.scroll-right-btn {
+.scroll-left-phone-btn,
+.scroll-right-phone-btn,
+.scroll-left-laptop-btn,
+.scroll-right-laptop-btn,
+.scroll-left-tablet-btn,
+.scroll-right-tablet-btn {
   cursor: pointer;
   font-size: 4rem;
   color: #ccc;
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   border-radius: 50%;
   transition: all 0.2s;
@@ -111,10 +124,14 @@
   }
 }
 
-.scroll-left-btn {
-  left: 30px; /* Dịch nút cuộn sang trái 30px so với vị trí của phần tử cha */
+.scroll-left-phone-btn,
+.scroll-left-laptop-btn,
+.scroll-left-tablet-btn {
+  left: 15px; /* Dịch nút cuộn sang trái 30px so với vị trí của phần tử cha */
 }
 
-.scroll-right-btn {
-  right: 30px; /* Dịch nút cuộn sang phải 30px so với vị trí của phần tử cha */
+.scroll-right-phone-btn,
+.scroll-right-laptop-btn,
+.scroll-right-tablet-btn {
+  right: 15px; /* Dịch nút cuộn sang phải 30px so với vị trí của phần tử cha */
 }
