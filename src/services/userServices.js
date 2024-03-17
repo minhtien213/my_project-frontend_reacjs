@@ -29,7 +29,7 @@ export const getDetailUser = async (id, access_token) => {
   try {
     const res = await httpRequest.get(`user/get-detail/${id}`, {
       headers: {
-        token: `Beare ${access_token}`,
+        token: `Bearer ${access_token}`,
       },
     });
     return res;
@@ -44,5 +44,47 @@ export const register = async (data_register) => {
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateUser = async (id, access_token, data_update) => {
+  // console.log(id, data_update, access_token);
+  try {
+    const res = await httpRequest.put(`user/update-user/${id}`, data_update, {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const changePass = async (id, access_token, pass_update) => {
+  // console.log(id, data_update, access_token);
+  try {
+    const res = await httpRequest.put(`user/update-user/password/${id}`, pass_update, {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const resetPass = async (access_token, pass_reset) => {
+  // console.log(id, data_update, access_token);
+  try {
+    const res = await httpRequest.put(`user/reset-password`, pass_reset, {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
   }
 };

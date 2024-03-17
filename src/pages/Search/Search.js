@@ -1,11 +1,11 @@
 import classNames from 'classnames/bind';
-import styles from '../Phone/Phone.module.scss';
+import styles from './Search.module.scss';
 import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
-import Image from '~/components/Image';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSearchValue } from '~/redux/productSlice';
+import CardProduct from '~/components/CardProduct';
 
 const cx = classNames.bind(styles);
 
@@ -28,8 +28,8 @@ function Search() {
         setPrevSearchKeyword(search);
       }
       const fetchProduct = async () => {
-        const dataSearch = await productServices.search(search, 'name', 4, pageCurrent);
-        console.log(dataSearch);
+        const dataSearch = await productServices.search(search, 'name', 2, pageCurrent);
+        // console.log(dataSearch);
         if (dataSearch) {
           if (pageCurrent >= dataSearch.totalPages) {
             setLoadmore(false);
@@ -58,25 +58,14 @@ function Search() {
         </p>
         <p className={cx('info-result-key')}>{search}</p>
         <p className={cx('info-result-totalPages')}>
-          ({pageCurrent}/{totalPages})
+          (trang {pageCurrent}/{totalPages})
         </p>
       </div>
 
       <div className={cx('content')}>
         {searchResult.length > 0 &&
-          searchResult.map((item) => {
-            return (
-              <div key={item.id} className={cx('card')}>
-                <Image src="" className={cx('card-img')} alt="" />
-                <div className={cx('card-info')}>
-                  <h3 className={cx('card-title')}>{item.name}</h3>
-                  <p className={cx('card-price')}>{item.price}đ</p>
-                  <Button primary className={cx('show-detail-btn')}>
-                    Xem chi tiết
-                  </Button>
-                </div>
-              </div>
-            );
+          searchResult.map((item, index) => {
+            return <CardProduct key={index} item={item} />;
           })}
       </div>
       <div className={cx('loadmore')}>

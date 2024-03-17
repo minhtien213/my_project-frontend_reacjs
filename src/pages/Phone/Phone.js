@@ -3,12 +3,15 @@ import styles from './Phone.module.scss';
 import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
-import Image from '~/components/Image';
+import CardProduct from '~/components/CardProduct';
 
 const cx = classNames.bind(styles);
 
 function Phone() {
   const [phone, setPhone] = useState([]);
+  // const [phoneFilter, setPhoneFilter] = useState([]);
+  // const [search, setSearch] = useState('phone');
+  // const [search_field, setSearch_field] = useState('type');
   const [loadmore, setLoadmore] = useState(true);
   const [pageCurrent, setPageCurrent] = useState(1);
 
@@ -19,6 +22,7 @@ function Phone() {
         setLoadmore(false);
       }
       setPhone((prev) => [...prev, ...dataPhone.data]);
+      // setPhoneFilter((prev) => [...prev, ...dataPhone.data]);
     };
     fetchPhone();
   }, [pageCurrent]);
@@ -27,22 +31,43 @@ function Phone() {
     setPageCurrent(pageCurrent + 1);
   };
 
+  // const handleChangeSelect = (value) => {
+  //   switch (value) {
+  //     case 'apple':
+  //       const apples = phoneFilter.filter((item) => {
+  //         return item.brand === 'apple';
+  //       });
+  //       setPhone(apples);
+  //       break;
+  //     case 'vivo':
+  //       const vivos = phoneFilter.filter((item) => {
+  //         return item.brand === 'vivo';
+  //       });
+  //       setPhone(vivos);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
   return (
     <div className={cx('wrapper')}>
+      <div className={cx('filters')}>
+        <p className={cx('filters-label')}>Lọc theo: </p>
+        <select
+          // onChange={(e) => handleChangeSelect(e.target.value)}
+          className={cx('filters-select')}
+          name="brand"
+        >
+          <option value="">---Thương hiệu---</option>
+          <option value="apple">Apple</option>
+          <option value="vivo">Vivo</option>
+          <option value="samsung">Samsung</option>
+        </select>
+      </div>
       <div className={cx('content')}>
-        {phone.map((item) => {
-          return (
-            <div key={item.id} className={cx('card')}>
-              <Image src="" className={cx('card-img')} alt="" />
-              <div className={cx('card-info')}>
-                <h3 className={cx('card-title')}>{item.name}</h3>
-                <p className={cx('card-price')}>{item.price}đ</p>
-                <Button primary className={cx('show-detail-btn')}>
-                  Xem chi tiết
-                </Button>
-              </div>
-            </div>
-          );
+        {phone.map((item, index) => {
+          return <CardProduct key={index} item={item} />;
         })}
       </div>
       <div className={cx('loadmore')}>

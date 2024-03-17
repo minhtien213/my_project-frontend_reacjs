@@ -3,7 +3,7 @@ import styles from '../Phone/Phone.module.scss';
 import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
-import Image from '~/components/Image';
+import CardProduct from '~/components/CardProduct';
 
 const cx = classNames.bind(styles);
 
@@ -30,19 +30,8 @@ function Laptop() {
   return (
     <div className={cx('wrapper')}>
       <div className={cx('content')}>
-        {laptop.map((item) => {
-          return (
-            <div key={item.id} className={cx('card')}>
-              <Image src="" className={cx('card-img')} alt="" />
-              <div className={cx('card-info')}>
-                <h3 className={cx('card-title')}>{item.name}</h3>
-                <p className={cx('card-price')}>{item.price}đ</p>
-                <Button primary className={cx('show-detail-btn')}>
-                  Xem chi tiết
-                </Button>
-              </div>
-            </div>
-          );
+        {laptop.map((item, index) => {
+          return <CardProduct key={index} item={item} />;
         })}
       </div>
       <div className={cx('loadmore')}>

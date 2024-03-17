@@ -31,70 +31,82 @@
   text-align: center;
 }
 
-.form-login {
+.form-reset {
   display: flex;
   flex-direction: column;
   padding: 20px 30px;
+  position: relative;
 }
 
+.name-label,
 .email-label,
-.password-label {
+.password-label,
+.password-confirm-label {
   font-size: 14px;
   margin-top: 15px;
   margin-bottom: 3px;
 }
 
+.name,
 .email,
-.password {
+.password,
+.password-confirm {
   border: none;
   border-radius: 3px;
   padding: 7px 10px;
 }
 
-.password-group {
+.password-group,
+.password-confirm-group {
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-.message {
-  color: var(--text-error);
-  font-size: 12px;
-  margin-top: 8px;
-  font-style: italic;
-  font-weight: 100;
-}
-
 .faEye-icon,
 .faEyeSlash-icon {
   position: absolute;
-  top: 58%;
+  top: 60%;
   right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 12px;
 }
 
-.submit {
-  margin: auto;
+.faEye-icon-confirm,
+.faEyeSlash-icon-confirm {
+  position: absolute;
+  top: 60%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.isMember-forgetpass {
-  width: 100%;
-  margin-top: 10px;
+.success-mesage {
+  color: var(--text-success);
+  font-size: 1.3rem;
+  margin-left: 8px;
+  font-style: italic;
+  font-weight: 100;
+}
+
+.sigin-btn {
+  margin-left: 10px;
+  color: blue;
+}
+
+.error-mesage {
+  color: var(--text-error);
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  font-style: italic;
+  font-weight: 100;
+}
+
+.submit-reset {
+  margin: auto;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  font-size: 1.4rem;
-
-  .forgetpass-label,
-  .isMember-label {
-    font-style: italic;
-  }
-
-  .register-btn,
-  .forgetpass-btn {
-    margin-left: 5px;
-    color: blue;
-  }
+  justify-content: space-around;
 }

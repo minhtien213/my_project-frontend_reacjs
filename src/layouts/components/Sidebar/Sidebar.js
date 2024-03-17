@@ -8,7 +8,6 @@ import {
   faHome,
   faLaptop,
   faPhone,
-  faTable,
   faTabletAndroid,
 } from '@fortawesome/free-solid-svg-icons';
 

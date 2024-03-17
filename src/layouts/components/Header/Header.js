@@ -2,16 +2,10 @@
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; //import list icon
-import {
-  faMoon,
-  faGear,
-  faSignOut,
-  faUser,
-  faCartShopping,
-} from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './Header.module.scss';
 import images from '~/assets/images';
@@ -20,40 +14,46 @@ import Menu from '~/components/Popper/Menu';
 import Search from '../Search';
 import config from '~/config';
 import Image from '~/components/Image';
+import { resetUser } from '~/redux/userSlice';
 
 const cx = classNames.bind(styles); //bind object styles trả về biến cx
 
-//menu đã login
-const MENU_ITEMS_LOGIN = [
-  {
-    icon: <FontAwesomeIcon icon={faUser} />,
-    title: 'Quản lí tài khoản',
-    to: '/',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faGear} />,
-    title: 'Cài đặt',
-    to: '/settings',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faSignOut} />,
-    title: 'Đăng xuất',
-    to: '/sign-in',
-    border: true, //field tạo border
-  },
-];
-
 function Header() {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // console.log(user);
+
+  const MENU_ITEMS = [
+    {
+      icon: <FontAwesomeIcon icon={faUser} />,
+      title: 'Quản lí tài khoản',
+      type: 'profile',
+      to: `/api/user/get-detail/${user._id}`,
+    },
+    {
+      icon: <FontAwesomeIcon icon={faSignOut} />,
+      title: 'Đăng xuất',
+      // to: `${config.routes.login}`,
+      type: 'logout',
+      border: true, //field tạo border
+    },
+  ];
+
+  const handleLogout = () => {
+    dispatch(resetUser());
+    localStorage.clear();
+    navigate('/sign-in');
+  };
 
   //xử lí khi click vào menu item
   const handleMenuChange = (menuItem) => {
-    // switch (menuItem.type) {
-    //   case 'language':
-    //     //logic thay đổi ngôn ngữ...
-    //     break;
-    //   default:
-    // }
+    switch (menuItem.type) {
+      case 'logout':
+        handleLogout();
+        break;
+      default:
+    }
   };
 
   return (
@@ -82,7 +82,7 @@ function Header() {
                 <FontAwesomeIcon className={cx('actions-cart-icon')} icon={faCartShopping} />
               </Tippy>
               <div className={cx('info-login')}>
-                <Menu items={MENU_ITEMS_LOGIN} onChange={handleMenuChange}>
+                <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
                   <div className={cx('info-login')}>
                     <Link to={config.routes.profile}>
                       <Image className={cx('actions-avatar-img')} src="" alt="avatar" />

@@ -66,8 +66,8 @@
 .faEye-icon,
 .faEyeSlash-icon {
   position: absolute;
-  top: 77%;
-  right: 10px;
+  top: 60%;
+  right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 12px;
@@ -76,14 +76,14 @@
 .faEye-icon-confirm,
 .faEyeSlash-icon-confirm {
   position: absolute;
-  top: 77%;
-  right: 10px;
+  top: 60%;
+  right: 15px;
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 12px;
 }
 
-.message {
+.error-message {
   color: var(--text-error);
   font-size: 12px;
   margin-top: 8px;
@@ -91,8 +91,26 @@
   font-weight: 100;
 }
 
+.success-mesage {
+  color: var(--text-success);
+  font-size: 1.3rem;
+  margin-left: 8px;
+  font-style: italic;
+  font-weight: 100;
+}
+
 .submit {
   margin: auto;
+}
+
+.success-btn {
+  margin: auto;
+}
+
+.sigin-btn {
+  text-align: center;
+  margin-left: 10px;
+  color: blue;
 }
 
 .isMember {

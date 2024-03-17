@@ -3,8 +3,6 @@ import styles from '../Home.module.scss';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import Image from '~/components/Image';
-import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -12,6 +10,7 @@ import {
   faArrowAltCircleRight,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import CardProduct from '../../../components/CardProduct/CardProduct';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +18,6 @@ function PhoneBlock({ title, type, to, listItems }) {
   const [showScrollLeftBtn, setShowScrollLeftBtn] = useState(false);
   const [showScrollRightBtn, setShowScrollRightBtn] = useState(true);
   const phoneRef = useRef();
-  const cardRef = useRef();
   const scrollLeftBtn = useRef();
   const scrollRightBtn = useRef();
 
@@ -42,19 +40,8 @@ function PhoneBlock({ title, type, to, listItems }) {
       </div>
       <div className={cx(`scroll-${type}`)}>
         <div ref={phoneRef} className={cx(`${type}`)}>
-          {listItems.map((item) => {
-            return (
-              <div key={item.id} ref={cardRef} className={cx('card')}>
-                <Image src={item.images[0]} className={cx('card-img')} alt="" />
-                <div className={cx('card-info')}>
-                  <h3 className={cx('card-title')}>{item.name}</h3>
-                  <p className={cx('card-price')}>{item.price}đ</p>
-                  <Button primary className={cx('show-detail-btn')}>
-                    Xem chi tiết
-                  </Button>
-                </div>
-              </div>
-            );
+          {listItems.map((item, index) => {
+            return <CardProduct key={index} item={item} size="home-page-size" />;
           })}
           <div className={cx('loadmore')}>
             <Link to={to}>

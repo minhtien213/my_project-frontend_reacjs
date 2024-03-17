@@ -9,7 +9,6 @@ import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import styles from './Login.module.scss';
 import Button from '~/components/Button';
-import Input from '~/components/Input';
 import { updateUser } from '~/redux/userSlice';
 import { setLocalStorage } from '~/utils/localStorageUtils';
 
@@ -77,22 +76,33 @@ function Login() {
       <div className={cx('container')}>
         <h2 className={cx('login-label')}>Đăng nhập</h2>
         <form className={cx('form-login')}>
-          <Input
-            label="Email:"
+          <label className={cx('email-label')} htmlFor="email">
+            Email:
+          </label>
+          <input
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            type="email"
+            className={cx('email')}
             id="email"
-            data={email}
-            setData={setEmail}
-            placeholder="nhập email" 
+            placeholder="nhập email"
           />
 
           <div className={cx('password-group')}>
-            <Input
-              label="Mật khẩu:"
+            <label className={cx('password-label')} htmlFor="password">
+              Mật khẩu:
+            </label>
+            <input
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type={showPassword ? 'text' : 'password'}
-              id="password"
-              data={password}
-              setData={setPassword}
+              className={cx('password')}
               placeholder="nhập mật khẩu"
+              id="password"
             />
             {showPassword && (
               <FontAwesomeIcon className={cx('faEye-icon')} icon={faEye} onClick={handleShowPass} />
@@ -122,8 +132,8 @@ function Login() {
           </div>
           <div className={cx('forgetpass')}>
             <p className={cx('forgetpass-label')}>Quên mật khẩu?</p>
-            <Link className={cx('forgetpass-btn')} to={'/reset-password'}>
-              Khôi phục
+            <Link className={cx('forgetpass-btn')} to={'/sign-up'}>
+              Reset
             </Link>
           </div>
         </div>

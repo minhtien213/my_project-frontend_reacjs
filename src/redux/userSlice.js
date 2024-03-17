@@ -5,21 +5,36 @@ export const userSlice = createSlice({
   name: 'user', //tên ...
   initialState: {
     //giá trị khởi tạo khi lần đầu load trang
+    _id: '',
     name: '',
     email: '',
+    password: '',
+    phone: '',
+    address: '',
   },
   reducers: {
     //chứa các hành động có thể thực hiện được với slise này(create, update, delete...)
     updateUser: (state, action) => {
-      //hành động update - nhận 2 giá trị (state: giá trị khởi tạo ở trên, action: hành động bên ngoài truyền vào)
-      const { name, email } = action.payload;
-      // console.log(action.payload)
-      state.name = name; //gán giá trị mới bên ngoài truyền vào từ action.payload cho name trong state khởi tạo
+      const { _id, name, email, phone, address, password } = action.payload;
+      // console.log(action.payload);
+      state._id = _id;
+      state.name = name;
       state.email = email;
+      state.phone = phone;
+      state.password = password;
+      state.address = address;
+    },
+    resetUser: (state) => {
+      state.id = '';
+      state.name = '';
+      state.email = '';
+      state.phone = '';
+      state.password = '';
+      state.address = '';
     },
   },
 });
 
 //export reducer ra ngoài
-export const { updateUser } = userSlice.actions; //xuất hành động update trong userSlice.reducers.updateUser
+export const { updateUser, resetUser } = userSlice.actions; //xuất hành động update trong userSlice.reducers.updateUser
 export default userSlice.reducer;

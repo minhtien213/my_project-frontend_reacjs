@@ -20,6 +20,11 @@ export const post = async (url, options = {}) => {
   return response.data;
 };
 
+export const put = async (url, options = {}) => {
+  const response = await httpRequest.put(url, options);
+  return response.data;
+};
+
 export default httpRequest;
 
 //using:
