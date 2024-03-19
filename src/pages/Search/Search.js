@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSearchValue } from '~/redux/productSlice';
-import CardProduct from '~/components/CardProduct';
+import CardProduct from '~/components/ProductCard';
 
 const cx = classNames.bind(styles);
 

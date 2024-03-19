@@ -10,7 +10,7 @@ import {
   faArrowAltCircleRight,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
-import CardProduct from '../../../components/CardProduct/CardProduct';
+import CardProduct from '../../../components/ProductCard/ProductCard';
 
 const cx = classNames.bind(styles);
 

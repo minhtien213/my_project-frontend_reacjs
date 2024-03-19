@@ -3,15 +3,12 @@ import styles from './Phone.module.scss';
 import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
-import CardProduct from '~/components/CardProduct';
+import CardProduct from '~/components/ProductCard';
 
 const cx = classNames.bind(styles);
 
 function Phone() {
   const [phone, setPhone] = useState([]);
-  // const [phoneFilter, setPhoneFilter] = useState([]);
-  // const [search, setSearch] = useState('phone');
-  // const [search_field, setSearch_field] = useState('type');
   const [loadmore, setLoadmore] = useState(true);
   const [pageCurrent, setPageCurrent] = useState(1);
 

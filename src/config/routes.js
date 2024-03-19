@@ -2,10 +2,11 @@
 
 const routes = {
   home: '/',
-  phone: '/phone',
-  laptop: '/laptop',
-  tablet: '/tablet',
-  profile: '/api/user/get-detail/:id',
+  phone: '/phones',
+  laptop: '/laptops',
+  tablet: '/tablets',
+  detail: '/detail/:name',
+  profile: '/my-profile/:id',
   search: '/search',
   login: '/sign-in',
   resetpass: '/reset-password',

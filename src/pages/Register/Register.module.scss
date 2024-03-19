@@ -1,28 +1,17 @@
 .wrapper {
   width: 100%;
   height: 100vh;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(249, 245, 245, 0.7);
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(98, 94, 94, 0.5);
-  z-index: -1;
+  margin-top: 20px;
 }
 
 .container {
   width: 500px;
   border: 1px solid #9a8f8f;
   border-radius: 10px;
-  padding: 20px 30px;
+  padding: 15px 30px;
   display: flex;
   flex-direction: column;
 }
@@ -34,7 +23,7 @@
 .form-register {
   display: flex;
   flex-direction: column;
-  padding: 20px 30px;
+  padding: 15px 30px;
   position: relative;
 }
 

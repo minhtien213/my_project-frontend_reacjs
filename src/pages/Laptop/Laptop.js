@@ -3,7 +3,7 @@ import styles from '../Phone/Phone.module.scss';
 import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
-import CardProduct from '~/components/CardProduct';
+import CardProduct from '~/components/ProductCard';
 
 const cx = classNames.bind(styles);
 

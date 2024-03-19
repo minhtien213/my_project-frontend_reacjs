@@ -1,21 +1,23 @@
 import classNames from 'classnames/bind';
-import styles from './CardProduct.module.scss';
+import styles from './ProductCard.module.scss';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import Image from '~/components/Image';
 import Button from '~/components/Button';
 import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function CardProduct({ item = {}, size }) {
-    
   const cardRef = useRef();
   return (
     <div className={cx('wrapper', size)}>
       <div key={item.id} ref={cardRef} className={cx('card')}>
-        <Image src={item.images[0]} className={cx('card-img')} alt={item.name} />
+        <Link to={`/detail/${item.name}`}>
+          <Image src={item.images[0]} className={cx('card-img')} alt={item.name} />
+        </Link>
         <div className={cx('card-info')}>
           <h3 className={cx('card-title')}>{item.name}</h3>
           <div className={cx('card-price-rating')}>
@@ -24,7 +26,7 @@ function CardProduct({ item = {}, size }) {
               {item.rating} <FontAwesomeIcon icon={faStar} className={cx('card-rating-star')} />
             </p>
           </div>
-          <Button primary className={cx('show-detail-btn')}>
+          <Button primary to={`/detail/${item.name}`} className={cx('show-detail-btn')}>
             Xem chi tiết
           </Button>
         </div>

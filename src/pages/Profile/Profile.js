@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 import Input from '~/components/Input';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '~/components/Button';
 import Image from '~/components/Image';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,9 @@ const cx = classNames.bind(styles);
 
 function Profile() {
   const dispatch = useDispatch();
+  const imgRef = useRef();
   const user = useSelector((state) => state.user);
+  console.log(user);
   const access_token = localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -25,6 +27,8 @@ function Profile() {
       setEmail(user.email || '');
       setPhone(user.phone || '');
       setAddress(user.address || '');
+      setAddress(user.address || '');
+      setAavatar(user.images[0] || '');
     }
   }, [user]);
 
@@ -36,6 +40,8 @@ function Profile() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [showPassForm, setShowPassForm] = useState(false);
   const [address, setAddress] = useState('');
+  const [avatar, setAavatar] = useState(null);
+
   const [result, setResult] = useState({});
   const [resultChangePass, setResultChangePass] = useState({});
   const [changePassBtn, setChangePassBtn] = useState(true);
@@ -72,20 +78,24 @@ function Profile() {
 
   const handleChangePass = async (e) => {
     e.preventDefault();
-    const pass_update = { password, newPassword, passwordConfirm };
-    const id = user._id;
-    const result_change_pass = await userServices.changePass(id, access_token, pass_update);
-    if (result_change_pass) {
-      setResultChangePass(result_change_pass);
-    }
-    if (result_change_pass.status === 'OK') {
-      setTimeout(() => {
-        setShowPassForm(!showPassForm);
-        setPassword('');
-        setNewPassword('');
-        setPasswordConfirm('');
-        setChangePassBtn(!changePassBtn);
-      }, 2000);
+    try {
+      const pass_update = { password, newPassword, passwordConfirm };
+      const id = user._id;
+      const result_change_pass = await userServices.changePass(id, access_token, pass_update);
+      if (result_change_pass) {
+        setResultChangePass(result_change_pass);
+      }
+      if (result_change_pass.status === 'OK') {
+        setTimeout(() => {
+          setShowPassForm(!showPassForm);
+          setPassword('');
+          setNewPassword('');
+          setPasswordConfirm('');
+          setChangePassBtn(!changePassBtn);
+        }, 2000);
+      }
+    } catch (error) {
+      console.log('error');
     }
   };
 
@@ -105,6 +115,32 @@ function Profile() {
   };
   const handleShowPassConfirm = () => {
     setShowPasswordConfirm(!showPasswordConfirm);
+  };
+
+  const handleChangeInputImg = (e) => {
+    const file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      imgRef.current.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    setAavatar(file);
+  };
+
+  const handleUpdateAvatar = async (e) => {
+    e.preventDefault();
+    const id = user._id;
+    try {
+      const formData = new FormData();
+      formData.append('images', avatar);
+      const result_avatar = await userServices.updateAvatar(id, access_token, formData);
+      console.log(result_avatar);
+      if (result_avatar) {
+        setAavatar(result_avatar.data.images[0]);
+      }
+    } catch (error) {
+      console.error('Error');
+    }
   };
 
   return (
@@ -230,11 +266,14 @@ function Profile() {
           )}
         </div>
       </form>
-      <div className={cx('avatar')}>
+      <form className={cx('avatar')} encType="multipart/form-data">
         <h3 className={cx('avatar-title')}>Ảnh đại diện</h3>
-        <Image className={cx('avatar-img')} src="" alt="" />
-        <Button primary>Cập nhật ảnh</Button>
-      </div>
+        <img ref={imgRef} className={cx('avatar-img')} src={avatar} alt={name} />
+        <input type="file" className={cx('file-input')} onChange={handleChangeInputImg} />
+        <Button onClick={handleUpdateAvatar} primary>
+          Cập nhật ảnh
+        </Button>
+      </form>
     </div>
   );
 }

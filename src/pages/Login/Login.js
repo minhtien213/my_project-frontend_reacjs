@@ -31,9 +31,9 @@ function Login() {
   const handleGetUserDetail = async (id, access_token) => {
     // //sau khi login thì lấy info user đã login
     try {
-      const data = await userServices.getDetailUser(id, access_token);
-      if (data) {
-        const user = await userServices.getDetailUser(id, access_token);
+      const user = await userServices.getDetailUser(id, access_token);
+      console.log(user);
+      if (user) {
         dispatch(updateUser(user.data)); //dispatch action(payload)
         setLocalStorage('user', user.data);
       } else {
@@ -73,7 +73,6 @@ function Login() {
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('overlay')}></div>
       <div className={cx('container')}>
         <h2 className={cx('login-label')}>Đăng nhập</h2>
         <form className={cx('form-login')}>
@@ -82,7 +81,7 @@ function Login() {
             id="email"
             data={email}
             setData={setEmail}
-            placeholder="nhập email" 
+            placeholder="nhập email"
           />
 
           <div className={cx('password-group')}>

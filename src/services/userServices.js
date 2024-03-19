@@ -61,10 +61,23 @@ export const updateUser = async (id, access_token, data_update) => {
   }
 };
 
+export const updateAvatar = async (id, access_token, formData) => {
+  try {
+    const res = await httpRequest.put(`user/update-avatar/${id}`, formData, {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const changePass = async (id, access_token, pass_update) => {
   // console.log(id, data_update, access_token);
   try {
-    const res = await httpRequest.put(`user/update-user/password/${id}`, pass_update, {
+    const res = await httpRequest.put(`user/change-password/${id}`, pass_update, {
       headers: {
         token: `Bearer ${access_token}`,
       },

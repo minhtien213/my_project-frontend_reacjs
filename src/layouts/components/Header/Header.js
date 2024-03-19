@@ -22,14 +22,13 @@ function Header() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // console.log(user);
 
   const MENU_ITEMS = [
     {
       icon: <FontAwesomeIcon icon={faUser} />,
       title: 'Quản lí tài khoản',
       type: 'profile',
-      to: `/api/user/get-detail/${user._id}`,
+      to: `/my-profile/${user._id}`,
     },
     {
       icon: <FontAwesomeIcon icon={faSignOut} />,

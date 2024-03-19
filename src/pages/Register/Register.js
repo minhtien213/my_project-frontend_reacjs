@@ -50,7 +50,6 @@ function Register() {
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('overlay')}></div>
       <div className={cx('container')}>
         <h2 className={cx('register-label')}>Đăng ký</h2>
         <form className={cx('form-register')}>

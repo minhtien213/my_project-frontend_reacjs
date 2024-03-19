@@ -7,7 +7,7 @@ import * as userServices from '~/services/userServices';
 import styles from './ResetPass.module.scss';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -51,7 +51,6 @@ function Reset() {
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('overlay')}></div>
       <div className={cx('container')}>
         <h2 className={cx('login-label')}>Khôi phục mật khẩu</h2>
         <form className={cx('form-reset')}>
