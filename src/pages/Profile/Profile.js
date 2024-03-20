@@ -18,7 +18,7 @@ function Profile() {
   const dispatch = useDispatch();
   const imgRef = useRef();
   const user = useSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
   const access_token = localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function Profile() {
       setPhone(user.phone || '');
       setAddress(user.address || '');
       setAddress(user.address || '');
-      setAavatar(user.images[0] || '');
+      setAvatar(user.images[0] || '');
     }
   }, [user]);
 
@@ -40,9 +40,10 @@ function Profile() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [showPassForm, setShowPassForm] = useState(false);
   const [address, setAddress] = useState('');
-  const [avatar, setAavatar] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   const [result, setResult] = useState({});
+  const [resultAvatar, setResultAvatar] = useState({});
   const [resultChangePass, setResultChangePass] = useState({});
   const [changePassBtn, setChangePassBtn] = useState(true);
   const [disabledBtn, setDisabledBtn] = useState(false);
@@ -124,7 +125,7 @@ function Profile() {
       imgRef.current.src = e.target.result;
     };
     reader.readAsDataURL(file);
-    setAavatar(file);
+    setAvatar(file);
   };
 
   const handleUpdateAvatar = async (e) => {
@@ -134,9 +135,11 @@ function Profile() {
       const formData = new FormData();
       formData.append('images', avatar);
       const result_avatar = await userServices.updateAvatar(id, access_token, formData);
-      console.log(result_avatar);
       if (result_avatar) {
-        setAavatar(result_avatar.data.images[0]);
+        setAvatar(result_avatar.data.images[0]);
+        setResultAvatar(result_avatar);
+        dispatch(updateUser(result_avatar.data));
+        setLocalStorage('user', result_avatar.data);
       }
     } catch (error) {
       console.error('Error');
@@ -268,8 +271,18 @@ function Profile() {
       </form>
       <form className={cx('avatar')} encType="multipart/form-data">
         <h3 className={cx('avatar-title')}>Ảnh đại diện</h3>
-        <img ref={imgRef} className={cx('avatar-img')} src={avatar} alt={name} />
+        <Image
+          ref={imgRef}
+          className={cx('avatar-img')}
+          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/${avatar}`}
+          alt={name}
+        />
         <input type="file" className={cx('file-input')} onChange={handleChangeInputImg} />
+        {resultAvatar.status === 'OK' ? (
+          <p className={cx('success-mesage')}>{resultAvatar.message}</p>
+        ) : (
+          ''
+        )}
         <Button onClick={handleUpdateAvatar} primary>
           Cập nhật ảnh
         </Button>

@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     //chứa các hành động có thể thực hiện được với slise này(create, update, delete...)
     updateUser: (state, action) => {
       const { _id, name, email, phone, address, password, images } = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
       state._id = _id;
       state.name = name;
       state.email = email;
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
       state.phone = '';
       state.password = '';
       state.address = '';
-      // state.images = [];
+      state.images = '';
     },
   },
 });

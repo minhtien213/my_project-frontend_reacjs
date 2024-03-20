@@ -45,6 +45,7 @@
 .actions {
   display: flex;
   width: 20%;
+  min-width: 200px;
   align-items: center;
   justify-content: space-around;
 }

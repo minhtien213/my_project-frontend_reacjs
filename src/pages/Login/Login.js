@@ -32,7 +32,7 @@ function Login() {
     // //sau khi login thì lấy info user đã login
     try {
       const user = await userServices.getDetailUser(id, access_token);
-      console.log(user);
+      // console.log(user);
       if (user) {
         dispatch(updateUser(user.data)); //dispatch action(payload)
         setLocalStorage('user', user.data);

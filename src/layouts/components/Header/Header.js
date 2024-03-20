@@ -23,6 +23,8 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const avatarImg = user.images[0];
+
   const MENU_ITEMS = [
     {
       icon: <FontAwesomeIcon icon={faUser} />,
@@ -84,7 +86,7 @@ function Header() {
                 <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
                   <div className={cx('info-login')}>
                     <Link to={config.routes.profile}>
-                      <Image className={cx('actions-avatar-img')} src="" alt="avatar" />
+                      <Image className={cx('actions-avatar-img')} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/${avatarImg}`} alt="avatar" />
                     </Link>
                     <span className={cx('name-login')}>{user.name}</span>
                   </div>
