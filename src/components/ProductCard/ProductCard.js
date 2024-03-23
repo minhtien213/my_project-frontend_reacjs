@@ -10,29 +10,27 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function CardProduct({ item = {}, size }) {
+function ProductCard({ item = {}, size }) {
   const cardRef = useRef();
   return (
-    <div className={cx('wrapper', size)}>
+    <Link to={`/detail/${item.name}`} className={cx('wrapper', size)}>
       <div key={item.id} ref={cardRef} className={cx('card')}>
-        <Link to={`/detail/${item.name}`}>
-          <Image src={item.images[0]} className={cx('card-img')} alt={item.name} />
-        </Link>
+        <Image src={item.images[0]} className={cx('card-img')} alt={item.name} />
         <div className={cx('card-info')}>
           <h3 className={cx('card-title')}>{item.name}</h3>
           <div className={cx('card-price-rating')}>
-            <p className={cx('card-price')}>{item.price}đ</p>
+            <p className={cx('card-price')}>{item.price}</p>
             <p className={cx('card-rating')}>
               {item.rating} <FontAwesomeIcon icon={faStar} className={cx('card-rating-star')} />
             </p>
           </div>
-          <Button primary to={`/detail/${item.name}`} className={cx('show-detail-btn')}>
+          <Button primary className={cx('show-detail-btn')}>
             Xem chi tiết
           </Button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
-export default CardProduct;
+export default ProductCard;

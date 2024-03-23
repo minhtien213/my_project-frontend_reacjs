@@ -14,7 +14,8 @@ function Tablet() {
 
   useEffect(() => {
     const fetchTablet = async () => {
-      const dataTablet = await productServices.search('tablet', 'type', 1, pageCurrent);
+      const pageSize = 4;
+      const dataTablet = await productServices.search('tablet', 'type', pageSize, pageCurrent);
       if (pageCurrent >= dataTablet.totalPages) {
         setLoadmore(false);
       }

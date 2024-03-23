@@ -21,21 +21,20 @@ function Login() {
   const [result, setResult] = useState({});
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); //điều hướng trang
-  const dispatch = useDispatch(); //dispatch payload
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  //show/hide password
   const handleShowPass = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleGetUserDetail = async (id, access_token) => {
-    // //sau khi login thì lấy info user đã login
+  //get user info login
+  const getUserDetail = async (id, access_token) => {
     try {
       const user = await userServices.getDetailUser(id, access_token);
-      // console.log(user);
       if (user) {
-        dispatch(updateUser(user.data)); //dispatch action(payload)
-        setLocalStorage('user', user.data);
+        dispatch(updateUser(user.data));
       } else {
         console.error('Error');
       }
@@ -44,8 +43,9 @@ function Login() {
     }
   };
 
-  const data_login = { email, password };
+  //handle login
   const handleLogin = () => {
+    const data_login = { email, password };
     const fetchApi = async () => {
       const result = await userServices.login(data_login);
       setResult(result);
@@ -54,10 +54,10 @@ function Login() {
         if (result?.access_token) {
           const decoded = jwtDecode(result?.access_token);
           if (decoded.id) {
-            handleGetUserDetail(decoded.id, result.access_token);
+            getUserDetail(decoded.id, result.access_token);
           }
         }
-        navigate('/'); //login success
+        navigate('/');
       }
     };
     fetchApi();

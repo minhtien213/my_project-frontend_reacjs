@@ -1,6 +1,6 @@
 //file thực hiện các call APIs
 
-import * as httpRequest from '~/utils/httpRequest'; //import all trong file httpRequest vào thành object httpRequest
+import httpRequest from '~/utils/httpRequest'; //import all trong file httpRequest vào thành object httpRequest
 
 export const search = async (search, search_field = 'name') => {
   try {
@@ -19,7 +19,7 @@ export const search = async (search, search_field = 'name') => {
 export const login = async (data_login) => {
   try {
     const res = await httpRequest.post('user/sign-in', data_login);
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }
@@ -32,7 +32,7 @@ export const getDetailUser = async (id, access_token) => {
         token: `Bearer ${access_token}`,
       },
     });
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }
@@ -41,7 +41,7 @@ export const getDetailUser = async (id, access_token) => {
 export const register = async (data_register) => {
   try {
     const res = await httpRequest.post(`user/sign-up`, { data_register });
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }
@@ -55,7 +55,7 @@ export const updateUser = async (id, access_token, data_update) => {
         token: `Bearer ${access_token}`,
       },
     });
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -68,7 +68,7 @@ export const updateAvatar = async (id, access_token, formData) => {
         token: `Bearer ${access_token}`,
       },
     });
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -82,7 +82,7 @@ export const changePass = async (id, access_token, pass_update) => {
         token: `Bearer ${access_token}`,
       },
     });
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -96,8 +96,38 @@ export const resetPass = async (access_token, pass_reset) => {
         token: `Bearer ${access_token}`,
       },
     });
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const addCart = async (access_token, data) => {
+  try {
+    const res = await httpRequest.put('user/add-cart', data, {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeCartItem = async (access_token, data) => {
+  try {
+    const res = await httpRequest.delete(
+      'user/remove-cart',
+      { data: data },
+      {
+        headers: {
+          token: `Bearer ${access_token}`,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
   }
 };

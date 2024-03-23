@@ -14,7 +14,8 @@ function Phone() {
 
   useEffect(() => {
     const fetchPhone = async () => {
-      const dataPhone = await productServices.search('phone', 'type', 4, pageCurrent);
+      const pageSize = 4;
+      const dataPhone = await productServices.search('phone', 'type', pageSize, pageCurrent);
       if (pageCurrent >= dataPhone.totalPages) {
         setLoadmore(false);
       }

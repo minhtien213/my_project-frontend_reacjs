@@ -1,5 +1,6 @@
 //phần header
-import Tippy from '@tippyjs/react';
+// import Tippy from '@tippyjs/react';
+import { useEffect, useState } from 'react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; //import list icon
 import { faSignOut, faUser, faCartShopping } from '@fortawesome/free-solid-svg-icons';
@@ -15,15 +16,24 @@ import Search from '../Search';
 import config from '~/config';
 import Image from '~/components/Image';
 import { resetUser } from '~/redux/userSlice';
+import CartItem from './CartItem';
 
 const cx = classNames.bind(styles); //bind object styles trả về biến cx
 
 function Header() {
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showCart, setShowCart] = useState(false);
+  const [cartQuantity, setCartQuantity] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(null);
 
+  const user = useSelector((state) => state.user);
   const avatarImg = user.images[0];
+
+  //load cart quantity
+  useEffect(() => {
+    setCartQuantity(user.cart.length);
+  }, [user]);
 
   const MENU_ITEMS = [
     {
@@ -41,13 +51,14 @@ function Header() {
     },
   ];
 
+  //log out
   const handleLogout = () => {
     dispatch(resetUser());
     localStorage.clear();
     navigate('/sign-in');
   };
 
-  //xử lí khi click vào menu item
+  //handleclick menu item
   const handleMenuChange = (menuItem) => {
     switch (menuItem.type) {
       case 'logout':
@@ -55,6 +66,16 @@ function Header() {
         break;
       default:
     }
+  };
+
+  //show/hide cart component
+  const handleHideCart = () => {
+    setShowCart(!showCart);
+  };
+
+  //get total price
+  const getTotalPrice = (price) => {
+    setTotalPrice(price);
   };
 
   return (
@@ -79,14 +100,19 @@ function Header() {
             </>
           ) : (
             <div className={cx('actions-login')}>
-              <Tippy content="Giỏ hàng" placement="bottom">
+              <div className={cx('actions-cart')} onClick={() => setShowCart(!showCart)}>
                 <FontAwesomeIcon className={cx('actions-cart-icon')} icon={faCartShopping} />
-              </Tippy>
+                <p className={cx('actions-cart-quantity')}>{cartQuantity}</p>
+              </div>
               <div className={cx('info-login')}>
                 <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
                   <div className={cx('info-login')}>
-                    <Link to={config.routes.profile}>
-                      <Image className={cx('actions-avatar-img')} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/${avatarImg}`} alt="avatar" />
+                    <Link to={`/my-profile/${user._id}`}>
+                      <Image
+                        className={cx('actions-avatar-img')}
+                        src={`${process.env.REACT_APP_BASE_URL_BACKEND}/${avatarImg}`}
+                        alt="avatar"
+                      />
                     </Link>
                     <span className={cx('name-login')}>{user.name}</span>
                   </div>
@@ -96,6 +122,35 @@ function Header() {
           )}
         </div>
       </div>
+
+      {/* CART component */}
+      {showCart && (
+        <div className={cx('cart')}>
+          <div className={cx('cart-overlay')} onClick={handleHideCart}></div>
+          <div className={cx('cart-content')}>
+            {user.cart.length !== 0 ? (
+              <>
+                <div className={cx('cart-items')}>
+                  <CartItem data={user.cart} getTotalPrice={getTotalPrice} />
+                </div>
+                <div className={cx('cart-total-price')}>
+                  <>
+                    Tổng tiền tạm tính: <p className={cx('total-price')}>{totalPrice}đ</p>
+                  </>
+                </div>
+              </>
+            ) : (
+              <p className={cx('cart-empty-mes')}>Bạn chưa có sản phẩm nào trong giỏ hàng.</p>
+            )}
+            <div className={cx('cart-action')}>
+              <button className={cx('cart-action-cancel')} onClick={handleHideCart}>
+                Hủy
+              </button>
+              <button className={cx('cart-action-order')}>Thanh toán</button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

@@ -13,9 +13,11 @@ function Home() {
   const [laptop, setLaptop] = useState([]);
   const [tablet, seTablet] = useState([]);
 
+  const pageSize = 6;
+
   useEffect(() => {
     const fetchPhone = async () => {
-      const dataPhone = await productServices.search('phone', 'type', 6);
+      const dataPhone = await productServices.search('phone', 'type', pageSize);
       setPhone(dataPhone.data);
     };
     fetchPhone();
@@ -23,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     const fetchLaptop = async () => {
-      const dataLaptop = await productServices.search('laptop', 'type', 6);
+      const dataLaptop = await productServices.search('laptop', 'type', pageSize);
       setLaptop(dataLaptop.data);
     };
     fetchLaptop();
@@ -31,7 +33,7 @@ function Home() {
 
   useEffect(() => {
     const fetchTablet = async () => {
-      const dataTablet = await productServices.search('tablet', 'type', 6);
+      const dataTablet = await productServices.search('tablet', 'type', pageSize);
       seTablet(dataTablet.data);
     };
     fetchTablet();

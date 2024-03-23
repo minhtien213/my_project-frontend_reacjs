@@ -66,7 +66,8 @@ function Search() {
   };
 
   const handleSeacrh = () => {
-    dispatch(updateSearchValue([debouncedValue, 1]));
+    const currentPage = 1;
+    dispatch(updateSearchValue([debouncedValue, currentPage]));
     setLocalStorage('searchValue', debouncedValue);
     navigate(config.routes.search);
   };
@@ -92,6 +93,7 @@ function Search() {
       >
         <div className={cx('search')}>
           <input
+            name="search"
             ref={inputRef}
             value={searchValue}
             placeholder="nhập tên sản phẩm cần tìm..."

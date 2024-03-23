@@ -25,38 +25,30 @@
   justify-content: space-between;
 }
 
-.type-prd-title {
-  padding: 2px 10px;
-  font-size: 30px;
-}
-
 .loadmore {
   flex: 0 0 10%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .loadmore-btn {
-  color: rgb(98, 98, 242);
+  color: var(--white);
   font-style: italic;
   font-size: 3rem;
   text-align: center;
-  // margin: auto;
 }
 
 .phone,
 .laptop,
 .tablet {
   width: 100%;
-  height: 300px;
   border-radius: 5px;
   display: flex;
   flex-wrap: nowrap;
   overflow-y: hidden;
   overflow-x: auto;
-  padding: 5px;
+  padding: 15px 10px;
   scrollbar-width: none;
   scroll-behavior: smooth;
   margin: auto;

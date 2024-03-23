@@ -1,0 +1,48 @@
+.cart-item {
+  width: 100%;
+  height: 55px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  margin-top: 3px;
+}
+
+.cart-prd-info {
+  width: 85%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 4px;
+}
+
+.cart-prd-price {
+  color: red;
+}
+
+.cart-prd-input {
+  height: 20px;
+  background-color: transparent;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.cart-delete {
+  width: 15%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #763939;
+  cursor: pointer;
+}
+
+.cart-total-price {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

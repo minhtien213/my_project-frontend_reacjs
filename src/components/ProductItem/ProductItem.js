@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 function ProductItem({ data }) {
   return (
-    <Link to={`/`} className={cx('wrapper')}>
+    <Link to={`/detail/${data.name}`} className={cx('wrapper')}>
       <Image className={cx('image')} src={data.image} alt={data.name} />
       <div className={cx('info')}>
         <h4 className={cx('name')}>{data.name}</h4>

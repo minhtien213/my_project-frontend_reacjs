@@ -170,7 +170,7 @@ function Profile() {
             </Button>
           )}
           {showPassForm && (
-            <p>
+            <>
               <h3 className={cx('profile-form-title')}>Thay đổi mật khẩu</h3>
               <div className={cx('change-password-form')}>
                 <div className={cx('password-old')}>
@@ -265,7 +265,7 @@ function Profile() {
                   ''
                 )}
               </div>
-            </p>
+            </>
           )}
         </div>
       </form>

@@ -14,7 +14,8 @@ function Laptop() {
 
   useEffect(() => {
     const fetchLaptop = async () => {
-      const dataLaptop = await productServices.search('laptop', 'type', 1, pageCurrent);
+      const pageSize = 4;
+      const dataLaptop = await productServices.search('laptop', 'type', pageSize, pageCurrent);
       if (pageCurrent >= dataLaptop.totalPages) {
         setLoadmore(false);
       }

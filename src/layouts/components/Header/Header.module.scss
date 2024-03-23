@@ -70,11 +70,24 @@
   cursor: pointer;
 }
 
+.actions-cart {
+  position: relative;
+}
+
 .actions-cart-icon {
-  font-size: 3rem;
+  font-size: 3.3rem;
   background-color: transparent;
   margin-left: 20px;
   color: var(--white);
+}
+
+.actions-cart-quantity {
+  position: absolute;
+  top: -2px;
+  left: 37px;
+  color: red;
+  user-select: none;
+  cursor: pointer;
 }
 
 .info-login {
@@ -93,6 +106,107 @@
 }
 
 .name-login {
-  color: var(--primary);
+  color: var(--white);
   font-size: 20px;
+}
+
+//CART CSS
+
+.cart {
+  position: fixed;
+  right: 0;
+  top: 60px;
+  height: 100vh;
+  width: 100%;
+  transition: all 0.5s ease;
+}
+
+.cart-overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.cart-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background-color: #8fb0b0;
+  animation: slideInFromRight 0.5s ease;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(200%);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.cart-empty-mes {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-top: 50%;
+  color: rgb(235, 75, 75);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 83%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.cart-total-price,
+.cart-action {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-total-price {
+  bottom: 105px;
+  background-color: cadetblue;
+  justify-content: center;
+  color: var(--white);
+}
+
+.total-price {
+  color: rgb(239, 61, 61);
+  margin-left: 15px;
+  font-size: 2rem;
+}
+
+.cart-action-order,
+.cart-action-cancel {
+  flex: 1;
+  height: 100%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cart-action-order {
+  background-color: var(--primary);
+  color: var(--white);
+
+  &:hover {
+    background-color: rgb(235, 115, 60);
+  }
 }
