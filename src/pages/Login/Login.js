@@ -11,7 +11,6 @@ import styles from './Login.module.scss';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import { updateUser } from '~/redux/userSlice';
-import { setLocalStorage } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -57,8 +56,8 @@ function Login() {
             getUserDetail(decoded.id, result.access_token);
           }
         }
-        navigate('/');
       }
+      navigate('/');
     };
     fetchApi();
   };

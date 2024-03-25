@@ -7,7 +7,7 @@ import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
-function ProductItem({ data }) {
+function ProductItem({ data = {} }) {
   return (
     <Link to={`/detail/${data.name}`} className={cx('wrapper')}>
       <Image className={cx('image')} src={data.image} alt={data.name} />

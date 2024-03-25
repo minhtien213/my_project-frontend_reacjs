@@ -11,5 +11,7 @@ const routes = {
   login: '/sign-in',
   resetpass: '/reset-password',
   register: '/sign-up',
+  admin: '/admin',
+  order: '/order',
 };
 export default routes;

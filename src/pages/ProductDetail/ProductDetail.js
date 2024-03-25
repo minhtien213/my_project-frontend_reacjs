@@ -71,7 +71,6 @@ function ProductDetail() {
       setResultCartBtn(result.message);
       setDisabledAddCartBtn(true);
       dispatch(updateUser(result.data));
-      setLocalStorage('user', result.data);
     }
   };
 

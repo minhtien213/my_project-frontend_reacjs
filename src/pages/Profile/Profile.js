@@ -66,7 +66,6 @@ function Profile() {
     const result = await userServices.updateUser(id, access_token, data_update);
     setResult(result);
     if (result.status === 'OK') {
-      setLocalStorage('user', result.data);
       dispatch(updateUser(result?.data));
     }
   };

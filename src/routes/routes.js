@@ -9,6 +9,8 @@ import Laptop from '~/pages/Laptop';
 import Tablet from '~/pages/Tablet';
 import Profile from '~/pages/Profile';
 import ProductDetail from '~/pages/ProductDetail';
+import Admin from '~/pages/Admin';
+import Order from '~/pages/Order';
 import { HeaderOnly } from '~/layouts'; //import layout riêng để thêm vào field layout
 
 const publicRoutes = [
@@ -19,6 +21,8 @@ const publicRoutes = [
   { path: config.routes.detail, component: ProductDetail, layout: HeaderOnly },
   { path: config.routes.profile, component: Profile },
   { path: config.routes.search, component: Search },
+  { path: config.routes.order, component: Order },
+  { path: config.routes.admin, component: Admin, layout: HeaderOnly },
   { path: config.routes.login, component: Login, layout: HeaderOnly },
   { path: config.routes.resetpass, component: ResetPass, layout: HeaderOnly },
   { path: config.routes.register, component: Register, layout: HeaderOnly },

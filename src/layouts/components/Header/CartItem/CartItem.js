@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import * as userServices from '~/services/userServices';
 import { updateUser } from '~/redux/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { setLocalStorage } from '~/utils/localStorageUtils';
 
 const cx = classNames.bind(styles);
 
@@ -14,21 +13,17 @@ function CartItem({ data = [], getTotalPrice }) {
   const dispatch = useDispatch();
   const [cartItemId, setCartItemId] = useState('');
   const [listChecked, setListChecked] = useState([]);
+  const [listOrder, setListOrder] = useState([]);
   const userId = useSelector((state) => state.user._id);
   const access_token = localStorage.getItem('access_token');
 
   //set checked checkbox load component
   useEffect(() => {
-    const totalPrices = [];
     data.forEach((item) => {
+      console.log(item);
       setListChecked((prev) => [...prev, item.productId._id]);
-      const pr = item.productId.price;
-      const sl = item.quantity;
-      const tl = pr * sl;
-      totalPrices.push(tl);
     });
-    const total = totalPrices.reduce((acc, cur) => acc + cur, 0);
-    getTotalPrice(total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   //get id cartitem
@@ -44,7 +39,6 @@ function CartItem({ data = [], getTotalPrice }) {
         const result = await userServices.removeCartItem(access_token, dataCartItemRemove);
         if (result) {
           dispatch(updateUser(result.data));
-          setLocalStorage('user', result.data);
         }
       };
       fetchData();
@@ -55,7 +49,6 @@ function CartItem({ data = [], getTotalPrice }) {
   const handleChangeCheckox = (e) => {
     const cartItemId = e.target.value;
     setListChecked((prev) => {
-      //thay đổi list cartItemId checked
       const isChecked = prev.includes(cartItemId); //theo dõi checkbox đã checked hay chưa
       if (isChecked) {
         return prev.filter((item) => item !== cartItemId); //nếu đã checked thì loại cartItemId đó ra khỏi mảng checked
@@ -65,9 +58,26 @@ function CartItem({ data = [], getTotalPrice }) {
     });
   };
 
+  //total price
   useEffect(() => {
-    //handle orrder
-  }, [listChecked]);
+    let totalPrice = 0;
+    if (listChecked.length !== 0) {
+      data.forEach((item) => {
+        if (listChecked.includes(item.productId._id)) {
+          totalPrice += parseFloat(item.productId.price * item.quantity);
+          setListOrder((prev) => [...prev, item]);
+        }
+      });
+    } else {
+      totalPrice = 0;
+    }
+    getTotalPrice(totalPrice);
+  }, [listChecked, data, getTotalPrice]);
+
+  //dispatch orrder value
+  // useEffect(() => {
+  //   console.log({ listChecked, listOrder });
+  // }, [data, listChecked]);
 
   return (
     <>

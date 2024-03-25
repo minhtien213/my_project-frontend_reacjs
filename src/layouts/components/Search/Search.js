@@ -20,44 +20,28 @@ import { setLocalStorage } from '~/utils/localStorageUtils';
 const cx = classNames.bind(styles);
 
 function Search() {
+  const inputRef = useRef();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [loadingIcon, setloadingIcon] = useState(false);
 
-  const dispatch = useDispatch(); //dispatch payload
-  const debouncedValue = useDebounce(searchValue, 500); //delay thời gian nhập input value
+  const debouncedValue = useDebounce(searchValue, 500);
 
-  const inputRef = useRef();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!debouncedValue.trim()) {
-      return;
-    }
-    const fetchApi = async () => {
-      setloadingIcon(true);
-
-      const result = await productServices.search(debouncedValue);
-
-      setSearchResult(result.data);
-      setloadingIcon(false);
-    };
-    fetchApi();
-  }, [debouncedValue]);
-
-  //click vào icon xóa
+  //delete search value
   const clearInputValue = () => {
     setSearchValue('');
     inputRef.current.focus();
   };
 
-  //khi blur ra khỏi khối searchResult
+  //searchResult on blur event
   const handleHideSearchResult = () => {
     setShowResult(false);
   };
 
-  //không cho nhập dấu cách đầu tiên
+  //do not allow the first space to be entered
   const handleChange = (e) => {
     const searchValue = e.target.value;
     if (!searchValue.startsWith(' ')) {
@@ -65,12 +49,31 @@ function Search() {
     }
   };
 
+  //click search button
   const handleSeacrh = () => {
     const currentPage = 1;
     dispatch(updateSearchValue([debouncedValue, currentPage]));
     setLocalStorage('searchValue', debouncedValue);
     navigate(config.routes.search);
   };
+
+  //handle search
+  useEffect(() => {
+    if (!debouncedValue.trim()) {
+      return;
+    }
+    const fetchApi = async () => {
+      setloadingIcon(true);
+      const result = await productServices.search(debouncedValue);
+      setSearchResult(result.data);
+      setloadingIcon(false);
+    };
+    fetchApi();
+  }, [debouncedValue]);
+
+  // useEffect(() => {
+  //   console.log(searchResult);
+  // }, [searchResult]);
 
   return (
     //bọc <div> hoặc <span> xung quanh phần tử tham chiếu sẽ giải quyết cảnh báo của tippy
@@ -89,7 +92,7 @@ function Search() {
             </PopperWrapper>
           </div>
         )}
-        onClickOutside={handleHideSearchResult} //click ra khỏi khối search result
+        onClickOutside={handleHideSearchResult}
       >
         <div className={cx('search')}>
           <input
@@ -101,12 +104,11 @@ function Search() {
             onChange={handleChange}
             onFocus={() => setShowResult(true)}
           />
-          {!!searchValue &&
-            !loadingIcon && ( //button khi có giá trị trong searchValue - convert sang boolean
-              <button className={cx('clear-btn')} onClick={clearInputValue}>
-                <FontAwesomeIcon icon={faCircleXmark} />
-              </button>
-            )}
+          {!!searchValue && !loadingIcon && (
+            <button className={cx('clear-btn')} onClick={clearInputValue}>
+              <FontAwesomeIcon icon={faCircleXmark} />
+            </button>
+          )}
 
           {loadingIcon && <FontAwesomeIcon className={cx('loading-icon')} icon={faSpinner} />}
           <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
