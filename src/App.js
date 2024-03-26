@@ -29,7 +29,6 @@ function App() {
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
-
     if (access_token) {
       const decoded = jwtDecode(access_token);
       if (decoded.id) {
@@ -41,18 +40,8 @@ function App() {
       const currentPage = 1;
       dispatch(updateSearchValue([searchValue, currentPage]));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]); //update store khi reload page
-
-  // useEffect(() => {
-  //   const user = getLocalStorage('user');
-  //   if (user) {
-  //     dispatch(updateUser(user));
-  //   }
-  //   const searchValue = getLocalStorage('searchValue');
-  //   if (searchValue) {
-  //     dispatch(updateSearchValue([searchValue, 1]));
-  //   }
-  // }, [dispatch]); //update store khi reload page
 
   return (
     <Router>

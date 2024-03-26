@@ -17,6 +17,7 @@ import config from '~/config';
 import Image from '~/components/Image';
 import { resetUser } from '~/redux/userSlice';
 import CartItem from './CartItem';
+import { updateOrder } from '~/redux/orderSlice';
 
 const cx = classNames.bind(styles); //bind object styles trả về biến cx
 
@@ -24,6 +25,7 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
+  const [orderBtn, setOrderBtn] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(null);
 
@@ -33,6 +35,11 @@ function Header() {
   //load cart quantity
   useEffect(() => {
     setCartQuantity(user.cart.length);
+    if (user.cart.length === 0) {
+      setOrderBtn(true);
+    } else {
+      setOrderBtn(false);
+    }
   }, [user]);
 
   const MENU_ITEMS = [
@@ -76,6 +83,22 @@ function Header() {
   //get total price
   const getTotalPrice = (price) => {
     setTotalPrice(price);
+  };
+
+  //get list order
+  const getListOrder = (list_order) => {
+    if (list_order.length === 0) {
+      setOrderBtn(true);
+    } else {
+      setOrderBtn(false);
+      dispatch(updateOrder({ list_order, totalPrice }));
+    }
+  };
+
+  //handle order
+  const handleOrder = () => {
+    setShowCart(false);
+    navigate('/order');
   };
 
   return (
@@ -131,7 +154,11 @@ function Header() {
             {user.cart.length !== 0 ? (
               <>
                 <div className={cx('cart-items')}>
-                  <CartItem data={user.cart} getTotalPrice={getTotalPrice} />
+                  <CartItem
+                    data={user.cart}
+                    getTotalPrice={getTotalPrice}
+                    getListOrder={getListOrder}
+                  />
                 </div>
                 <div className={cx('cart-total-price')}>
                   <>
@@ -146,7 +173,9 @@ function Header() {
               <button className={cx('cart-action-cancel')} onClick={handleHideCart}>
                 Hủy
               </button>
-              <button className={cx('cart-action-order')}>Thanh toán</button>
+              <Button disabled={orderBtn} className={cx('cart-action-order')} onClick={handleOrder}>
+                Thanh toán
+              </Button>
             </div>
           </div>
         </div>

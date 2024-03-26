@@ -9,30 +9,31 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
-function CartItem({ data = [], getTotalPrice }) {
+function CartItem({ data = [], getTotalPrice, getListOrder }) {
   const dispatch = useDispatch();
-  const [cartItemId, setCartItemId] = useState('');
   const [listChecked, setListChecked] = useState([]);
-  const [listOrder, setListOrder] = useState([]);
+  const [carts, setCarts] = useState([]);
   const userId = useSelector((state) => state.user._id);
   const access_token = localStorage.getItem('access_token');
+  const list_order = useSelector((state) => state.order.list_order);
+
+  //assign state carts = data[]
+  useEffect(() => {
+    setCarts(data);
+  }, [data]);
 
   //set checked checkbox load component
   useEffect(() => {
-    data.forEach((item) => {
-      console.log(item);
-      setListChecked((prev) => [...prev, item.productId._id]);
-    });
+    if (list_order.length > 0) {
+      list_order.forEach((item) => {
+        setListChecked((prev) => [...prev, item.productId._id]);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-  //get id cartitem
-  const handleDeleteCartItem = (cartItem_id) => {
-    setCartItemId(cartItem_id);
-  };
+  }, [carts]);
 
   //delete cart item
-  useEffect(() => {
+  const handleDeleteCartItem = (cartItemId) => {
     if (cartItemId !== '') {
       const fetchData = async () => {
         const dataCartItemRemove = { userId, cartItemId };
@@ -43,10 +44,10 @@ function CartItem({ data = [], getTotalPrice }) {
       };
       fetchData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartItemId]);
+  };
 
-  const handleChangeCheckox = (e) => {
+  //handle change checkbox
+  const handleChangeCheckbox = (e) => {
     const cartItemId = e.target.value;
     setListChecked((prev) => {
       const isChecked = prev.includes(cartItemId); //theo dõi checkbox đã checked hay chưa
@@ -58,30 +59,40 @@ function CartItem({ data = [], getTotalPrice }) {
     });
   };
 
-  //total price
+  //total price + list order
   useEffect(() => {
     let totalPrice = 0;
     if (listChecked.length !== 0) {
-      data.forEach((item) => {
-        if (listChecked.includes(item.productId._id)) {
-          totalPrice += parseFloat(item.productId.price * item.quantity);
-          setListOrder((prev) => [...prev, item]);
-        }
-      });
+      const list_order = carts.filter((item) => listChecked.includes(item.productId._id));
+      getListOrder(list_order);
+
+      list_order.forEach(
+        (item) => (totalPrice += parseFloat(item.productId.price * item.quantity)),
+      );
     } else {
       totalPrice = 0;
+      getListOrder([]);
     }
     getTotalPrice(totalPrice);
-  }, [listChecked, data, getTotalPrice]);
+  }, [listChecked, carts, getTotalPrice, getListOrder]);
 
-  //dispatch orrder value
-  // useEffect(() => {
-  //   console.log({ listChecked, listOrder });
-  // }, [data, listChecked]);
+  //handle change input quantity
+  const handleChangeInputQuantity = (e, cartItemId) => {
+    const newQuantity = e.target.value;
+    setCarts((prev) =>
+      prev.map((item) => {
+        if (item.productId._id === cartItemId) {
+          return { ...item, quantity: newQuantity };
+        } else {
+          return item;
+        }
+      }),
+    );
+  };
 
   return (
     <>
-      {data?.map((item, index) => {
+      {carts?.map((item, index) => {
         return (
           <div key={index} className={cx('cart-item')}>
             <div className={cx('cart-prd-info')}>
@@ -90,11 +101,11 @@ function CartItem({ data = [], getTotalPrice }) {
                 checked={listChecked.includes(item.productId._id)}
                 name={`checkbox-${index}`}
                 value={item.productId._id}
-                onChange={handleChangeCheckox}
+                onChange={handleChangeCheckbox}
               />
 
               <h3 htmlFor={`quantity_${index}`}>{item.productId.name}</h3>
-              <p className={cx('cart-prd-price')}>{item.productId.price}</p>
+              <p className={cx('cart-prd-price')}>{item.productId.price}đ</p>
               <input
                 className={cx('cart-prd-input')}
                 type="number"
@@ -102,7 +113,8 @@ function CartItem({ data = [], getTotalPrice }) {
                 name={index}
                 min="1"
                 max="10"
-                defaultValue={item.quantity}
+                value={item.quantity}
+                onChange={(e) => handleChangeInputQuantity(e, item.productId._id)}
               />
             </div>
 
