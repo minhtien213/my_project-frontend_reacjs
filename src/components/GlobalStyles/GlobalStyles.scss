@@ -65,3 +65,25 @@ a {
   z-index: 999;
   background-color: white;
 }
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-icon {
+  animation: spinner 0.8s linear infinite;
+  font-size: 3rem;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

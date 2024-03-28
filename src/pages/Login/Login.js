@@ -54,10 +54,12 @@ function Login() {
           const decoded = jwtDecode(result?.access_token);
           if (decoded.id) {
             getUserDetail(decoded.id, result.access_token);
+            const previous_path = localStorage.getItem('previous_path');
+            navigate(previous_path ? `${previous_path}` : '/');
+            localStorage.removeItem('previous_path');
           }
         }
       }
-      navigate('/');
     };
     fetchApi();
   };

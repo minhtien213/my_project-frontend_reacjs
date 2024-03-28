@@ -4,6 +4,7 @@ import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
 import CardProduct from '~/components/ProductCard';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -11,6 +12,7 @@ function Laptop() {
   const [laptop, setLaptop] = useState([]);
   const [loadmore, setLoadmore] = useState(true);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLaptop = async () => {
@@ -21,9 +23,14 @@ function Laptop() {
       }
       setLaptop((prev) => [...prev, ...dataLaptop.data]);
     };
+    setLoading(false);
     fetchLaptop();
   }, [pageCurrent]);
 
+  if (loading) {
+    return <Loading />;
+  }
+  
   const handleClick = () => {
     setPageCurrent(pageCurrent + 1);
   };

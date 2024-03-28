@@ -3,27 +3,30 @@ import styles from './ProductDetail.module.scss';
 import * as productServices from '~/services/productServices';
 import * as userServices from '~/services/userServices';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
 import Image from '~/components/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '~/redux/userSlice';
-import { setLocalStorage } from '~/utils/localStorageUtils';
+import { updateOrder } from '~/redux/orderSlice';
 
 const cx = classNames.bind(styles);
 
 function ProductDetail() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [result, setResult] = useState({});
   const [disabledAddCartBtn, setDisabledAddCartBtn] = useState(false);
   const [resultCartBtn, setResultCartBtn] = useState('Thêm vào giỏ hàng');
   const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(null);
 
   //get state redux
   const user = useSelector((state) => state.user);
   const userId = user._id;
+
   const productId = result._id;
   const access_token = localStorage.getItem('access_token');
 
@@ -34,16 +37,18 @@ function ProductDetail() {
       setResultCartBtn('Thêm vào giỏ hàng');
     }
     const prdInCart = [];
-    user.cart.forEach((item) => {
-      prdInCart.push(item.productId._id);
-      if (prdInCart.includes(productId)) {
-        setDisabledAddCartBtn(true);
-        setResultCartBtn('Đã thêm vào giỏ hàng');
-      } else {
-        setDisabledAddCartBtn(false);
-        setResultCartBtn('Thêm vào giỏ hàng');
-      }
-    });
+    if (user.cart) {
+      user.cart.forEach((item) => {
+        prdInCart.push(item.productId._id);
+        if (prdInCart.includes(productId)) {
+          setDisabledAddCartBtn(true);
+          setResultCartBtn('Đã thêm vào giỏ hàng');
+        } else {
+          setDisabledAddCartBtn(false);
+          setResultCartBtn('Thêm vào giỏ hàng');
+        }
+      });
+    }
   }, [user, productId]);
 
   // get parameters value
@@ -60,18 +65,42 @@ function ProductDetail() {
     fetchData();
   }, [name]);
 
-  //btn orrder button
-  const handleOrrder = async () => {};
+  //init totalPrice
+  useEffect(() => {
+    setTotalPrice(result.price);
+  }, [result]);
 
   //add cart
   const handleAddCart = async (e) => {
     const data = { userId, productId, quantity };
-    const result = await userServices.addCart(access_token, data);
-    if (result) {
-      setResultCartBtn(result.message);
-      setDisabledAddCartBtn(true);
-      dispatch(updateUser(result.data));
+    if (access_token) {
+      const result = await userServices.addCart(access_token, data);
+      if (result) {
+        setResultCartBtn(result.message);
+        setDisabledAddCartBtn(true);
+        dispatch(updateUser(result.data));
+      }
+    } else {
+      localStorage.setItem('previous_path', window.location.pathname);
+      navigate('/sign-in');
     }
+  };
+
+  //handle change quantity
+  const handleChangeQuantity = (e) => {
+    setQuantity(e.target.value);
+    setTotalPrice(e.target.value * result.price);
+  };
+
+  //btn orrder button
+  const handleOrrder = async () => {
+    dispatch(
+      updateOrder({
+        list_order: [{ productId: result, quantity: quantity }],
+        totalPrice: totalPrice,
+      }),
+    );
+    navigate('/order');
   };
 
   return (
@@ -111,7 +140,7 @@ function ProductDetail() {
               min="1"
               max="10"
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={handleChangeQuantity}
             />
           </div>
         </div>

@@ -29,7 +29,7 @@ export const getDetailUser = async (id, access_token) => {
   try {
     const res = await httpRequest.get(`user/get-detail/${id}`, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
     return res.data;
@@ -52,7 +52,7 @@ export const updateUser = async (id, access_token, data_update) => {
   try {
     const res = await httpRequest.put(`user/update-user/${id}`, data_update, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
     return res.data;
@@ -65,7 +65,8 @@ export const updateAvatar = async (id, access_token, formData) => {
   try {
     const res = await httpRequest.put(`user/update-avatar/${id}`, formData, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'multipart/form-data',
       },
     });
     return res.data;
@@ -75,11 +76,10 @@ export const updateAvatar = async (id, access_token, formData) => {
 };
 
 export const changePass = async (id, access_token, pass_update) => {
-  // console.log(id, data_update, access_token);
   try {
     const res = await httpRequest.put(`user/change-password/${id}`, pass_update, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
     return res.data;
@@ -93,7 +93,7 @@ export const resetPass = async (access_token, pass_reset) => {
   try {
     const res = await httpRequest.put(`user/reset-password`, pass_reset, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
     return res.data;
@@ -106,7 +106,7 @@ export const addCart = async (access_token, data) => {
   try {
     const res = await httpRequest.put('user/add-cart', data, {
       headers: {
-        token: `Bearer ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
     return res.data;
@@ -122,7 +122,7 @@ export const removeCartItem = async (access_token, data) => {
       { data: data },
       {
         headers: {
-          token: `Bearer ${access_token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       },
     );

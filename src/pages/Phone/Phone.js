@@ -4,6 +4,7 @@ import * as productServices from '~/services/productServices';
 import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
 import CardProduct from '~/components/ProductCard';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -11,6 +12,7 @@ function Phone() {
   const [phone, setPhone] = useState([]);
   const [loadmore, setLoadmore] = useState(true);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPhone = async () => {
@@ -20,10 +22,14 @@ function Phone() {
         setLoadmore(false);
       }
       setPhone((prev) => [...prev, ...dataPhone.data]);
-      // setPhoneFilter((prev) => [...prev, ...dataPhone.data]);
     };
+    setLoading(false);
     fetchPhone();
   }, [pageCurrent]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleClick = () => {
     setPageCurrent(pageCurrent + 1);

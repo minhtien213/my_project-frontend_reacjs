@@ -11,14 +11,32 @@ import { updateUser } from '~/redux/userSlice';
 import { setLocalStorage } from '~//utils/localStorageUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
   const dispatch = useDispatch();
   const imgRef = useRef();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [showPassForm, setShowPassForm] = useState(false);
+  const [address, setAddress] = useState('');
+  const [avatar, setAvatar] = useState(null);
+  const [result, setResult] = useState({});
+  const [resultAvatar, setResultAvatar] = useState({});
+  const [resultChangePass, setResultChangePass] = useState({});
+  const [changePassBtn, setChangePassBtn] = useState(true);
+  const [disabledBtn, setDisabledBtn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
-  // console.log(user);
   const access_token = localStorage.getItem('access_token');
 
   useEffect(() => {
@@ -30,26 +48,8 @@ function Profile() {
       setAddress(user.address || '');
       setAvatar(user.images[0] || '');
     }
+    setLoading(false);
   }, [user]);
-
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [showPassForm, setShowPassForm] = useState(false);
-  const [address, setAddress] = useState('');
-  const [avatar, setAvatar] = useState(null);
-
-  const [result, setResult] = useState({});
-  const [resultAvatar, setResultAvatar] = useState({});
-  const [resultChangePass, setResultChangePass] = useState({});
-  const [changePassBtn, setChangePassBtn] = useState(true);
-  const [disabledBtn, setDisabledBtn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   useEffect(() => {
     if (!email || !name) {
@@ -58,6 +58,10 @@ function Profile() {
       setDisabledBtn(false);
     }
   }, [email, name]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleUpdate = async (e) => {
     e.preventDefault();

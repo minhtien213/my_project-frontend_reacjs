@@ -71,10 +71,6 @@ function Search() {
     fetchApi();
   }, [debouncedValue]);
 
-  // useEffect(() => {
-  //   console.log(searchResult);
-  // }, [searchResult]);
-
   return (
     //bọc <div> hoặc <span> xung quanh phần tử tham chiếu sẽ giải quyết cảnh báo của tippy
     <div className={cx('search-result-block')}>

@@ -6,6 +6,7 @@ import Button from '~/components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSearchValue } from '~/redux/productSlice';
 import CardProduct from '~/components/ProductCard';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +16,7 @@ function Search() {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [prevSearchKeyword, setPrevSearchKeyword] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch(); //dispatch payload
   const search = useSelector((state) => state.product.searchValue);
@@ -41,10 +43,16 @@ function Search() {
           setSearchResult((prev) => [...prev, ...dataSearch.data]);
         }
       };
+
+      setLoading(false);
       fetchProduct();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, pageCurrent]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleLoadmore = () => {
     dispatch(updateSearchValue([search, pageCurrent + 1]));

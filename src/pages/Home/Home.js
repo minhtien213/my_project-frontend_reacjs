@@ -5,6 +5,7 @@ import PhoneBlock from './ProductBlock';
 import config from '~/config';
 import { useEffect, useState } from 'react';
 import * as productServices from '~/services/productServices';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -12,21 +13,29 @@ function Home() {
   const [phone, setPhone] = useState([]);
   const [laptop, setLaptop] = useState([]);
   const [tablet, seTablet] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const pageSize = 6;
 
   useEffect(() => {
     const fetchPhone = async () => {
       const dataPhone = await productServices.search('phone', 'type', pageSize);
-      setPhone(dataPhone.data);
+      if (dataPhone) {
+        setPhone(dataPhone.data);
+      }
+      setLoading(false);
     };
+
     fetchPhone();
   }, []);
 
   useEffect(() => {
     const fetchLaptop = async () => {
       const dataLaptop = await productServices.search('laptop', 'type', pageSize);
-      setLaptop(dataLaptop.data);
+      if (dataLaptop) {
+        setLaptop(dataLaptop.data);
+      }
+      setLoading(false);
     };
     fetchLaptop();
   }, []);
@@ -34,10 +43,17 @@ function Home() {
   useEffect(() => {
     const fetchTablet = async () => {
       const dataTablet = await productServices.search('tablet', 'type', pageSize);
-      seTablet(dataTablet.data);
+      if (dataTablet) {
+        seTablet(dataTablet.data);
+      }
+      setLoading(false);
     };
     fetchTablet();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className={cx('wrapper')}>

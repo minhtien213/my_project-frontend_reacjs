@@ -19,15 +19,16 @@ const publicRoutes = [
   { path: config.routes.laptop, component: Laptop },
   { path: config.routes.tablet, component: Tablet },
   { path: config.routes.detail, component: ProductDetail, layout: HeaderOnly },
-  { path: config.routes.profile, component: Profile },
   { path: config.routes.search, component: Search },
-  { path: config.routes.order, component: Order },
-  { path: config.routes.admin, component: Admin, layout: HeaderOnly },
   { path: config.routes.login, component: Login, layout: HeaderOnly },
   { path: config.routes.resetpass, component: ResetPass, layout: HeaderOnly },
   { path: config.routes.register, component: Register, layout: HeaderOnly },
 ];
 
-const privateRoutes = [{}];
+const privateRoutes = [
+  { path: config.routes.profile, component: Profile },
+  { path: config.routes.order, component: Order },
+  { path: config.routes.admin, component: Admin, layout: HeaderOnly },
+];
 
 export { privateRoutes, publicRoutes };
